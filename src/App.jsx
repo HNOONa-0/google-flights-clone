@@ -1,11 +1,12 @@
 import { useState } from "react";
+import GoogleFlightClone from "./pages/GoogleFlightClone";
 
 function App() {
   const [count, setCount] = useState(0);
 
   return (
     <>
-      <div></div>
+      <GoogleFlightClone></GoogleFlightClone>
     </>
   );
 }
