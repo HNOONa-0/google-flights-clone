@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+.tab-button {
+@apply flex-1 p-2 text-gray-500 transition-colors duration-300;
+}
+
+.tab-button.active {
+@apply border-b-2 border-blue-500 font-semibold text-blue-600;
+}
