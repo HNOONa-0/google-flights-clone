@@ -55,7 +55,6 @@ const AirportSearchInput = forwardRef(({ placeholder, setError }, ref) => {
         const response = await api("v1/flights/searchAirport", {
           query: debouncedQuery,
         });
-        console.log("response", response.data);
         setAirports((prevAirports) => {
           const airportMap = new Map();
 

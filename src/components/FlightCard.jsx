@@ -3,13 +3,11 @@ import { formatTime, normalizeTag } from "../utils/util";
 const FlightCard = ({ destinationImageUrl, flight }) => {
   const { id, price, legs, tags } = flight;
 
-  // Ensure there is at least one leg, else return empty
   const leg = legs?.[0] || {};
   const { departure, arrival, durationInMinutes, carriers } = leg;
   const fromCity = leg.origin?.city || "Unknown";
   const toCity = leg.destination?.city || "Unknown";
 
-  // Convert durationInMinutes to hours and minutes, default to 0 if undefined
   const hours = durationInMinutes ? Math.floor(durationInMinutes / 60) : 0;
   const minutes = durationInMinutes ? durationInMinutes % 60 : 0;
 

@@ -1,5 +1,4 @@
 const DestinationCard = ({ destination }) => {
-  // Destructuring the nested content
   const { content } = destination;
   const { location, image, flightQuotes } = content || {};
   const { name } = location || {};

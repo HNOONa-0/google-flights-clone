@@ -1,4 +1,3 @@
-// DestinationResults.js
 import DestinationCard from "./DestinationCard";
 import Spinner from "./Spinner";
 

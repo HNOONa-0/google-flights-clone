@@ -18,7 +18,6 @@ const GoogleFlightClone = () => {
   const toRef = useRef(null);
   const adultsRef = useRef(null);
 
-  // create search flight function
   const searchFlights = async () => {
     const fromAirport = fromRef.current?.getSelectedAirport();
     const toAirport = toRef.current?.getSelectedAirport();
@@ -39,10 +38,9 @@ const GoogleFlightClone = () => {
         currency: "USD",
         date: new Date().toISOString().split("T")[0],
       });
-      console.log("response", response);
 
       setFlights(response.data);
-    } catch (error) {
+    } catch (_error) {
       setError("Could not fetch flights");
     } finally {
       setIsFlightsLoading(false);
@@ -72,9 +70,8 @@ const GoogleFlightClone = () => {
           }
         );
 
-        console.log("destinationsResponse", destinationsResponse);
         setDestinations(destinationsResponse.data);
-      } catch (error) {
+      } catch (_error) {
         setError("Could not fetch destinations");
       } finally {
         setIsDestinationsLoading(false);
@@ -93,8 +90,8 @@ const GoogleFlightClone = () => {
   return (
     <>
       <div className="container mx-auto p-6 bg-white shadow-xl rounded-lg max-w-xl border border-gray-200">
-        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
-          Flight Search
+        <h2 className="text-2xl font-bold mb-6 text-center text-blue-600">
+          Flights Clone
         </h2>
 
         <div className="flex flex-col space-y-4">
@@ -102,11 +99,12 @@ const GoogleFlightClone = () => {
             Cabin Class:
             <select className="block w-full mt-1 p-3 border border-gray-300 rounded-md focus:ring focus:ring-blue-300">
               <option value="economy">Economy</option>
-              <option value="premium-economy">Premium Economy</option>
+              <option value="premium_economy">Premium Economy</option>
               <option value="business">Business</option>
               <option value="first">First</option>
             </select>
           </label>
+
           <label className="text-sm font-medium text-gray-700">
             Number of Adults:
             <input
@@ -125,6 +123,7 @@ const GoogleFlightClone = () => {
             placeholder={"From"}
             setError={setError}
           />
+
           <AirportSearchInput
             ref={toRef}
             placeholder={"To"}
@@ -139,6 +138,7 @@ const GoogleFlightClone = () => {
           <Search size={16} />
           <span>Search Flights</span>
         </button>
+
         {error && (
           <p className="error-message text-red-500 text-sm mt-4 text-center">
             {error}
@@ -152,6 +152,7 @@ const GoogleFlightClone = () => {
             flights={flights}
             title="Available flights"
           />
+
           <DestinationResults
             isLoading={isDestinationsLoading}
             destinations={destinations}

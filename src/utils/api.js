@@ -6,7 +6,7 @@ const api = async (endpoint, queryParams = {}) => {
     const url = `${baseUrl}/${endpoint}?${queryString}&locale=${
       import.meta.env.VITE_LOCALE
     }`;
-    console.log("url", url);
+
     const response = await fetch(url, {
       method: "GET",
       headers: {
