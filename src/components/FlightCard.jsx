@@ -12,7 +12,7 @@ const FlightCard = ({ destinationImageUrl, flight }) => {
   const minutes = durationInMinutes ? durationInMinutes % 60 : 0;
 
   return (
-    <div className="max-w-sm rounded-lg overflow-hidden shadow-lg bg-white hover:shadow-xl transition-shadow duration-300 ease-in-out mx-auto mb-8">
+    <div className="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg rounded-lg overflow-hidden shadow-lg bg-white hover:shadow-xl transition-shadow duration-300 ease-in-out mx-auto mb-8">
       <img
         src={destinationImageUrl}
         alt={`Flight to ${toCity}`}
@@ -20,7 +20,7 @@ const FlightCard = ({ destinationImageUrl, flight }) => {
       />
       <div className="p-6">
         <h4 className="text-xl font-semibold text-gray-800 mb-2">
-          Flight {id?.substring(0, 6)}...
+          Flight {id?.split("-").slice(0, 2).join("-")}...
         </h4>
 
         <p className="text-lg text-gray-900 font-semibold mb-2">

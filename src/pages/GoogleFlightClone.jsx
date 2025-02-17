@@ -89,7 +89,7 @@ const GoogleFlightClone = () => {
 
   return (
     <>
-      <div className="container mx-auto p-6 bg-white shadow-xl rounded-lg max-w-xl border border-gray-200">
+      <div className="container mx-auto p-6 bg-white shadow-xl rounded-lg max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl border border-gray-200">
         <h2 className="text-2xl font-bold mb-6 text-center text-blue-600">
           Flights Clone
         </h2>
