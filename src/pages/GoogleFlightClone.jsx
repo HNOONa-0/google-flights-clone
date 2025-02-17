@@ -1,19 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Search } from "lucide-react";
 import AirportSearchInput from "../components/AirportsSearchInput";
 import api from "../utils/api";
 import FlightResults from "../components/FlightResults";
+import useUserLocation from "../custom-hooks/useUserLocation";
+import DestinationResults from "../components/DestinationResults";
 
 const GoogleFlightClone = () => {
-  const [departure, setDeparture] = useState("");
-  const [returnDate, setReturnDate] = useState("");
-  const [currentAirport, setCurrentAirport] = useState(null);
-  const [nearbyAirports, setNearbyAirports] = useState([]);
-  const [airports, setAirports] = useState([]);
-  const [error, setError] = useState("");
-  const [avaialableFlights, setAvailableFlights] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
+  const [flights, setFlights] = useState({});
+  const [destinations, setDestinations] = useState({});
+  const [isFlightsLoading, setIsFlightsLoading] = useState(false);
+  const [isDestinationsLoading, setIsDestinationsLoading] = useState(false);
+  const { latitude, longitude } = useUserLocation();
 
+  const [error, setError] = useState("");
   const fromRef = useRef(null);
   const toRef = useRef(null);
   const adultsRef = useRef(null);
@@ -27,7 +27,7 @@ const GoogleFlightClone = () => {
       setError("Please select both airports");
       return;
     }
-    setIsLoading(true);
+    setIsFlightsLoading(true);
 
     try {
       const response = await api("v2/flights/searchFlightsComplete", {
@@ -40,19 +40,56 @@ const GoogleFlightClone = () => {
         date: new Date().toISOString().split("T")[0],
       });
       console.log("response", response);
-      setAvailableFlights(response.data);
+
+      setFlights(response.data);
     } catch (error) {
-      setError(error.message);
+      setError("Could not fetch flights");
     } finally {
-      setIsLoading(false);
+      setIsFlightsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (!latitude || !longitude) return;
+    setIsDestinationsLoading(true);
+
+    const fetchDestinations = async () => {
+      try {
+        const nearbyAirportsResponse = await api(
+          "v1/flights/getNearByAirports",
+          {
+            lat: latitude,
+            lng: longitude,
+          }
+        );
+
+        const destinationsResponse = await api(
+          "v2/flights/searchFlightEverywhere",
+          {
+            originEntityId:
+              nearbyAirportsResponse.data.current.navigation
+                .relevantFlightParams.entityId,
+          }
+        );
+
+        console.log("destinationsResponse", destinationsResponse);
+        setDestinations(destinationsResponse.data);
+      } catch (error) {
+        setError("Could not fetch destinations");
+      } finally {
+        setIsDestinationsLoading(false);
+      }
+    };
+
+    fetchDestinations();
+  }, [latitude, longitude]);
 
   useEffect(() => {
     if (error) {
       console.error("Error:", error);
     }
   }, [error]);
+
   return (
     <>
       <div className="container mx-auto p-6 bg-white shadow-xl rounded-lg max-w-xl border border-gray-200">
@@ -109,10 +146,18 @@ const GoogleFlightClone = () => {
         )}
       </div>
       <div className="w-full mt-8">
-        <h3 className="text-xl font-semibold text-center text-gray-800">
-          <FlightResults isLoading={isLoading} flights={avaialableFlights} />
-          <FlightResults isLoading={isLoading} flights={avaialableFlights} />
-        </h3>
+        <div className="text-xl font-semibold text-center text-gray-800">
+          <FlightResults
+            isLoading={isFlightsLoading}
+            flights={flights}
+            title="Available flights"
+          />
+          <DestinationResults
+            isLoading={isDestinationsLoading}
+            destinations={destinations}
+            title="Popular Destinations"
+          />
+        </div>
       </div>
     </>
   );
