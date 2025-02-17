@@ -1,4 +1,3 @@
-import React from "react";
 import GoogleFlightClone from "./pages/GoogleFlightClone";
 
 const App = () => {
