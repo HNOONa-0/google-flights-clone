@@ -1,19 +1,17 @@
 import FlightCard from "./FlightCard";
+import Spinner from "./Spinner";
 
-const FlightResults = ({ flights, isLoading }) => {
+const FlightResults = ({ flights, isLoading, title }) => {
   // assuming no pagination is needed
   const { destinationImageUrl, itineraries } = flights;
 
   return (
     <div className="w-full mt-8">
-      <h3 className="text-xl font-semibold text-gray-800 mb-4">
-        Available Flights
+      <h3 className="text-2xl font-bold text-center text-gray-800 mb-6 pb-2 border-b-2 border-gray-300">
+        {title}
       </h3>
-
       {isLoading ? (
-        <div className="flex justify-center items-center h-40">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-500"></div>
-        </div>
+        <Spinner />
       ) : !itineraries || itineraries.length === 0 ? (
         <p className="text-center text-gray-500">No flights found</p>
       ) : (
